@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Box, Text } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-
+import '@fontsource/ubuntu';
+// Supports weights 100-900
+import '@fontsource-variable/lexend';
 const LocationText = ({ heroRef }) => {
   const [heroHeight, setHeroHeight] = useState(0);
   const [animationProps, setAnimationProps] = useState({
@@ -54,7 +56,7 @@ const LocationText = ({ heroRef }) => {
       mt="-37vh"
     >
       <motion.div {...animationProps}>
-        <Text fontSize="6xl" fontWeight="bold" color="white">
+        <Text  fontSize="6xl" fontWeight="bold" color="white" fontFamily="Lexend Variable">
           Located In
         </Text>
       </motion.div>

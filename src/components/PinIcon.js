@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Box, Text, Image, Flex } from "@chakra-ui/react";
 import { motion, useAnimation } from "framer-motion";
-
+// Supports weights 100-900
+import '@fontsource-variable/lexend';
 const PinIcon = ({ heroRef }) => {
   const [heroHeight, setHeroHeight] = useState(0);
   const controls = useAnimation();
@@ -52,7 +53,7 @@ const PinIcon = ({ heroRef }) => {
             alt="Pin Icon"
             boxSize="40px" // Adjust size as needed
           />{" "}
-          <Text fontSize="2xl" fontWeight="bold" color="white" mr="4">
+          <Text fontSize="3xl" fontWeight="bold" color="white" mr="4" fontFamily="Lexend Variable">
             Montreal, Canada
           </Text>
         </Flex>

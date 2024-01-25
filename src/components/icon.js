@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Box, Heading, Image } from "@chakra-ui/react";
 import { motion } from "framer-motion";
+import "@fontsource/ubuntu";
 
+import '@fontsource-variable/lexend';
 const MotionBox = motion(Box);
 const MotionImage = motion(Image);
 
@@ -12,7 +14,7 @@ const IconTest = () => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
-      const headingTriggerHeight = window.innerHeight / 2; // Adjust this value as needed
+      const headingTriggerHeight = window.innerHeight / 1; // Adjust this value as needed
       const iconsTriggerHeight = window.innerHeight; // Adjust this value as needed
 
       // For the heading
@@ -69,7 +71,7 @@ const IconTest = () => {
   };
 
   const headingVariants = {
-    visible: { opacity: 1, y: 0, transition: { delay: 0.2, duration: 1.5 } }, // Increased duration
+    visible: { opacity: 1, y: 0, transition: { delay: 0.3, duration: 1 } }, // Increased duration
     hidden: { opacity: 0, y: 20 },
   };
 
@@ -88,7 +90,7 @@ const IconTest = () => {
         animate={isHeadingVisible ? "visible" : "hidden"}
         variants={headingVariants}
       >
-        <Heading as="h1" size="3xl" color="white" mb="40%">
+        <Heading as="h1" size="3xl" color="white" mb="40%" fontWeight="300" fontFamily="Lexend Variable">
           Agencies
         </Heading>
       </MotionBox>

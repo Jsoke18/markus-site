@@ -30,6 +30,8 @@ const Header = () => {
         fontSize="5xl"
         mb="4"
         marginRight="1%"
+        marginTop="3%"
+
       >
         Markus Rettger
       </Text>

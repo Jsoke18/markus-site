@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { Text, Box, Image, Flex, Alert, AlertIcon } from "@chakra-ui/react";
+import { Text, Box, Image, Flex, Alert, AlertIcon, Spinner } from "@chakra-ui/react";
 import { queryNotion } from "../services/notionService";
-
 const WorkCard = () => {
   const [cards, setCards] = useState([]);
   const [displayCount, setDisplayCount] = useState(15); // State for tracking number of displayed images
@@ -39,6 +38,8 @@ const WorkCard = () => {
         document.documentElement.offsetHeight
       )
         return;
+        console.log("Scroll event triggered"); // For testing
+
       setDisplayCount((prevCount) => prevCount + 40); // Load more images when user reaches the bottom
     };
 
@@ -52,8 +53,13 @@ const WorkCard = () => {
       cardIndex === index ? { ...card, isLoading: false } : card
     );
     setCards(updatedCards);
-  };
 
+    // Check if all images have loaded
+    const allLoaded = updatedCards.every(card => !card.isLoading);
+    if (allLoaded) {
+      setIsLoading(false);
+    }
+  };
   if (error) {
     return (
       <Alert status="error">
@@ -61,6 +67,18 @@ const WorkCard = () => {
         {error}
       </Alert>
     );
+  }
+
+if (isLoading) {
+  return (
+    <Flex justify="center" align="center" height="2vh">
+      <Spinner 
+        size="xl"
+        color="white"
+        style={{ width: "50px", height: "50px" }} // Custom width and height
+      />
+    </Flex>
+  );
   }
   return (
     <Flex wrap="wrap" justify="center">
@@ -77,6 +95,7 @@ const WorkCard = () => {
           mx={4} // Keep left and right margins the same
           flexBasis={["100%", "50%", "25%"]} // responsive flexBasis: 100% on small screens, 50% on medium screens, 25% on large screens
           visibility={card.isLoading ? "hidden" : "visible"}
+          
         >
           <Image
             src={card.url}
@@ -91,5 +110,5 @@ const WorkCard = () => {
     </Flex>
   );
 };
-
 export default WorkCard;
+

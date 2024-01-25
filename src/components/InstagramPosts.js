@@ -6,7 +6,7 @@ const InstagramEmbed = ({ urls, currentPostIndex, goToNextPost, goToPreviousPost
   const currentUrl = urls[currentPostIndex];
 
   useEffect(() => {
-    // Function to load the Instagram embed script
+    
     const loadScript = () => {
       const script = document.createElement('script');
       script.async = true;
