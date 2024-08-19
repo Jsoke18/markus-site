@@ -83,7 +83,7 @@ const IconTest = () => {
       justifyContent="center"
       minHeight="150vh"
       pt="100vh"
-      mt="-110vh"
+      mt="-115vh"
     >
       <MotionBox
         initial="hidden"
