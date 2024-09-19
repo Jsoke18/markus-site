@@ -25,7 +25,7 @@ const LocationText = ({ heroRef }) => {
     }
 
     const handleScroll = () => {
-      const triggerHeight = heroHeight * 0.30;
+      const triggerHeight = heroHeight * 0.13;
 
       if (window.scrollY > triggerHeight) {
         setAnimationProps({
@@ -53,7 +53,7 @@ const LocationText = ({ heroRef }) => {
       justifyContent="center"
       alignItems="center"
       h="100vh"
-      mt="-37vh"
+      mt="-50vh"
     >
       <motion.div {...animationProps}>
         <Text  fontSize="6xl" fontWeight="bold" color="white" fontFamily="Lexend Variable">
