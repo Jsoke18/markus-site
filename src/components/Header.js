@@ -111,6 +111,44 @@ const Header = () => {
             Work
           </Button>
         </Link>
+        <Link to="/about" onClick={() => setNavClicked(true)}>
+          <Button
+            colorScheme="white"
+            color="white"
+            mr="8"
+            css={css`
+              ${isActiveRoute("/about") && activeButtonStyle}
+
+              position: relative;
+              transition: all 0.5s;
+              &:after {
+                position: absolute;
+                bottom: 10px;
+                left: 0;
+                right: 0;
+                margin: auto;
+                width: 0%;
+                content: ".";
+                color: transparent;
+                background: transparent; /* Remove purple line */
+                height: 1px;
+                transition: all 1s;
+              }
+              &:hover {
+                color: #7d7d7d;
+                transform: scale(1.4); /* Enlarge text */
+                z-index: 1;
+              }
+              &:hover:after {
+                width: 0%;
+                z-index: -10;
+                opacity: 0;
+              }
+            `}
+          >
+            About
+          </Button>
+        </Link>
         <Link to="/press" onClick={() => setNavClicked(true)}>
           {" "}
           <Button
@@ -150,6 +188,7 @@ const Header = () => {
             Press
           </Button>
         </Link>
+        
         <Link to="/contact" onClick={() => setNavClicked(true)}>
           <Button
             colorScheme="white"

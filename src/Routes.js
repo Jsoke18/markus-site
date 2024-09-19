@@ -4,11 +4,13 @@ import Work from './pages/Work';
 import Home from './pages/Home'; // Import your Home component
 import Contact from './pages/Contact'; // Import your Home component
 import Press from './pages/Press'; // Import your Home component
+import About from './pages/About'; // Import your Home component
 
 const AppRoutes = () => (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/home" element={<Home />} />
+      <Route path="/about" element={<About />} />
       <Route path="/work" element={<Work />} />
       <Route path="/press" element={<Press />} />
       <Route path="/contact" element={<Contact />} />

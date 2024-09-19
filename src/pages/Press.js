@@ -1,86 +1,138 @@
-import React from "react";
-import { Box, Link, Image, Flex } from "@chakra-ui/react";
+import React, { useState } from "react";
+import { Box, Link, Image, Flex, Grid, Text, Spinner, VStack } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import InstagramCarousel from "../components/InstagramCarousel";
 
-const Pressy = () => {
-  return (
-    <div>
-      <Header mt={10} />{" "}
-      <Box
-        width="960px"
-        height="615px"
-        borderRadius="100%"
-        boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)"
-        bg="rgba(255, 255, 255, 0.1)"
-        backdropFilter="blur(10px)"
-        border="1px solid rgba(255, 255, 255, 0.18)"
-        m="auto"
-        mt="5%"
-      >
-        <iframe
+const MotionBox = motion(Box);
+
+const PressItem = ({ href, src, alt, title }) => (
+  <MotionBox
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.95 }}
+    transition={{ duration: 0.2 }}
+  >
+    <Link href={href} isExternal>
+      <VStack spacing={4} align="stretch">
+        <Image
+          src={src}
+          alt={alt}
           width="100%"
-          height="100%"
-          src="https://www.youtube.com/embed/wtIEnuyYSac?start=2"
-          title="YouTube video player"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-        ></iframe>
-      </Box>
-      <Flex justify="center" mt="17%">
-        <Box width="30%" height="30%" border="1px solid #ccc" mr="4%">
-          <Link
-            href="https://www.thefashionisto.com/rudsak-campaign-fall-2022/"
-            isExternal
+          height="250px"
+          objectFit="cover"
+          borderRadius="md"
+          boxShadow="lg"
+        />
+        <Text fontWeight="bold" color="white" textAlign="center">
+          {title}
+        </Text>
+      </VStack>
+    </Link>
+  </MotionBox>
+);
+
+const Pressy = () => {
+  const [isYoutubeLoading, setIsYoutubeLoading] = useState(true);
+
+  return (
+    <Box minH="100vh" bg="transparent">
+      <Header mt={10} />
+      <Box maxW="1200px" mx="auto" px={4} py={8}>
+        <MotionBox
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          mb={24} // Increased from 16 to 24 for more spacing
+        >
+          <Text fontSize="3xl" fontWeight="bold" color="white" mb={8} textAlign="center">
+            Featured Video
+          </Text>
+          <Box
+            position="relative"
+            width="100%"
+            paddingBottom="56.25%"
+            borderRadius="xl"
+            overflow="hidden"
+            boxShadow="2xl"
           >
-            <Image
+            {isYoutubeLoading && (
+              <Flex
+                position="absolute"
+                top={0}
+                left={0}
+                right={0}
+                bottom={0}
+                align="center"
+                justify="center"
+                bg="rgba(0,0,0,0.5)"
+              >
+                <Spinner size="xl" color="white" />
+              </Flex>
+            )}
+            <iframe
+              src="https://www.youtube.com/embed/wtIEnuyYSac?start=2"
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+              }}
+              onLoad={() => setIsYoutubeLoading(false)}
+            />
+          </Box>
+        </MotionBox>
+
+        <MotionBox
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          mb={16}
+        >
+          <Text fontSize="3xl" fontWeight="bold" color="white" mb={8} textAlign="center">
+            Press Features
+          </Text>
+          <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={8}>
+            <PressItem
+              href="https://www.thefashionisto.com/rudsak-campaign-fall-2022/"
               src="/assets/Screenshot 2024-01-23 202432.png"
-              alt="Link to The Fashionisto"
-              width="100%"
-              height="100%"
-              objectFit="cover"
+              alt="Rudsak Campaign"
+              title="Rudsak Highlights Its Modern Outerwear Heroes"
             />
-          </Link>
-        </Box>
-        <Box width="40%" height="60%" border="1px solid #ccc" ml="2%">
-          <Link
-            href="https://bench.ca/blogs/bench-stories/10-outfits-to-wear-in-a-city-that-never-sleeps"
-            isExternal
-          >
-            <Image
+            <PressItem
+              href="https://bench.ca/blogs/bench-stories/10-outfits-to-wear-in-a-city-that-never-sleeps"
               src="/assets/bench.png"
-              alt="Link to The Fashionisto"
-              width="100%"
-              height="100%"
-              objectFit="cover"
+              alt="Bench Campaign"
+              title="10 Outfits to Wear in a City that Never Sleeps"
             />
-          </Link>
-        </Box>{" "}
-      </Flex>{" "}
-      <Flex justify="center" mt="5%">
-        {" "}
-        <Box width="50%" height="70%" border="1px solid #ccc" mt="5%" ml="2%">
-          <Link
-            href="https://mojeh.com/fashion/versace-jeans-coutures-galactic-aw22-collection-is-delightfully-dizzying/"
-            isExternal
-          >
-            <Image
+            <PressItem
+              href="https://mojeh.com/fashion/versace-jeans-coutures-galactic-aw22-collection-is-delightfully-dizzying/"
               src="/assets/mojeh.png"
-              alt="Link to The Fashionisto"
-              width="100%"
-              height="100%"
-              objectFit="cover"
+              alt="Versace Jeans Couture"
+              title="Versace Jeans Couture's Galactic AW22 Collection"
             />
-          </Link>
-        </Box>
-      </Flex>
-      <Flex justify="center" mt="10%">
-        <InstagramCarousel />
-      </Flex>
+          </Grid>
+        </MotionBox>
+
+        <MotionBox
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          mb={16}
+        >
+          <Text fontSize="3xl" fontWeight="bold" color="white" mb={8} textAlign="center">
+            Instagram Highlights
+          </Text>
+          <InstagramCarousel />
+        </MotionBox>
+      </Box>
       <Footer />
-    </div>
+    </Box>
   );
 };
 
