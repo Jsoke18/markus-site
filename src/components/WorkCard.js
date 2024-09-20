@@ -9,9 +9,9 @@ const WorkCard = () => {
   const [hasMore, setHasMore] = useState(true);
   const [sessionId, setSessionId] = useState(null);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [selectedImage, setSelectedImage] = useState(null);
   const observer = useRef();
   const mountedRef = useRef(true);
-
 
   const resetState = useCallback(() => {
     setCards([]);
@@ -112,6 +112,16 @@ const WorkCard = () => {
     });
   }, []);
 
+  const handleImageClick = (card) => {
+    setSelectedImage(card);
+    document.body.style.overflow = 'hidden'; // Disable scrolling
+  };
+
+  const handleCloseEnlarged = () => {
+    setSelectedImage(null);
+    document.body.style.overflow = 'auto'; // Re-enable scrolling
+  };
+
   if (!sessionId) {
     return (
       <Alert status="error">
@@ -129,6 +139,7 @@ const WorkCard = () => {
       </Alert>
     );
   }
+
   return (
     <Flex direction="column" align="center">
       <Flex wrap="wrap" justify="center">
@@ -147,6 +158,8 @@ const WorkCard = () => {
             flexBasis={["100%", "50%", "25%"]}
             visibility={card.isLoading ? "hidden" : "visible"}
             position="relative"
+            onClick={() => handleImageClick(card)}
+            cursor="pointer"
             _hover={{
               "& > .title-overlay": {
                 transform: "translateY(0)",
@@ -194,6 +207,41 @@ const WorkCard = () => {
           style={{ width: "50px", height: "50px" }}
           my={4}
         />
+      )}
+      {selectedImage && (
+        <Box
+          position="fixed"
+          top={0}
+          left={0}
+          width="100%"
+          height="100%"
+          bg="rgba(0,0,0,0.8)"
+          zIndex={1000}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          onClick={handleCloseEnlarged}
+        >
+          <Image
+            src={selectedImage.url}
+            alt={selectedImage.title}
+            maxHeight="90%"
+            maxWidth="90%"
+            objectFit="contain"
+            onClick={(e) => e.stopPropagation()}
+          />
+          <Text
+            position="absolute"
+            bottom="20px"
+            left="50%"
+            transform="translateX(-50%)"
+            color="white"
+            fontSize="xl"
+            fontWeight="bold"
+          >
+            {selectedImage.title}
+          </Text>
+        </Box>
       )}
     </Flex>
   );
