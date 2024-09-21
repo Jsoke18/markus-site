@@ -6,7 +6,6 @@ import Footer from "../components/Footer";
 import InstagramCarousel from "../components/InstagramCarousel";
 
 const MotionBox = motion(Box);
-
 const PressItem = ({ href, src, alt, title }) => (
   <MotionBox
     whileHover={{ scale: 1.05 }}
@@ -37,13 +36,13 @@ const Pressy = () => {
 
   return (
     <Box minH="100vh" bg="transparent">
-      <Header mt={10} />
-      <Box maxW="1200px" mx="auto" px={4} py={8}>
+      <Header mt={15} />
+      <Box maxW="1200px" mx="auto" px={4} py={8} mt={20}> {/* Added mt={20} here */}
         <MotionBox
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          mb={24} // Increased from 16 to 24 for more spacing
+          mb={24}
         >
           <Text fontSize="3xl" fontWeight="bold" color="white" mb={8} textAlign="center">
             Featured Video
@@ -126,7 +125,7 @@ const Pressy = () => {
           mb={16}
         >
           <Text fontSize="3xl" fontWeight="bold" color="white" mb={8} textAlign="center">
-            Instagram Highlights
+            Popular Posts
           </Text>
           <InstagramCarousel />
         </MotionBox>

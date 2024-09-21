@@ -7,125 +7,142 @@ import {
   Input,
   Textarea,
   Box,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
-  CloseButton,
+  useBreakpointValue,
+  useToast,
+  VStack,
+  Text,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { sendEmail } from "../services/MailService";
 
 const MotionBox = motion(Box);
 
 const Contact = () => {
-  const [responseMessage, setResponseMessage] = useState("");
-  const [isError, setIsError] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const toast = useToast();
+
+  const formWidth = useBreakpointValue({ base: "90%", md: "500px" });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.target);
+    setIsSubmitting(true);
+    const formData = new FormData(event.target);
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/send_email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        body: data,
+      const result = await sendEmail(formData);
+      console.log("Email sent result:", result);  // Add this line for debugging
+      toast({
+        title: "Message sent",
+        description: "Thank you for reaching out. We'll get back to you soon.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
       });
-
-      console.log(response, "wtf");
-      const result = await response.json();
-      console.log(result, "wtf2");
-
-      setResponseMessage(result.message);
-      setIsError(false);
-      setShowAlert(true);
+      event.target.reset(); // Clear the form after successful submission
     } catch (error) {
-      console.error("Error:", error);
-      setResponseMessage("Failed to send the message. Please try again.");
-      setIsError(true);
-      setShowAlert(true);
+      console.error("Error sending email:", error);
+      toast({
+        title: "Message not sent",
+        description: "There was an error sending your message. Please try again.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  const closeAlert = () => {
-    setShowAlert(false);
-  }; 
 
   return (
     <div>
-      <Header mt={10}/>
+      <Header mt={10} />
       <MotionBox
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        p={5}
-        w="300px"
+        maxW="full"
         mx="auto"
+        mt={10}
+        p={5}
       >
-        {showAlert && (
-          <Alert status={isError ? "error" : "success"} variant="solid">
-            <AlertIcon />
-            <Box flex="1">
-              <AlertTitle>{isError ? "Error!" : "Success!"}</AlertTitle>
-              <AlertDescription display="block">
-                {responseMessage}
-              </AlertDescription>
-            </Box>
-            <CloseButton
-              position="absolute"
-              right="8px"
-              top="8px"
-              onClick={closeAlert}
-            />
-          </Alert>
-        )}
-        <Box
-          bg="rgba(255, 255, 255, 0.1)"
-          boxShadow="md"
-          p={8}
-          w="300px" // Increase width
-
-          borderRadius="md"
-          border="1px solid rgba(255, 255, 255, 0.18)"
-          mt="30%"
-        >
-          <Heading mb={4} fontSize={"large"} textColor="white">
-            Send a Message
-          </Heading>
-          <form onSubmit={handleSubmit}>
-            <FormControl mb={4} textColor={"white"}>
-              <FormLabel fontSize={"small"} textColor={"white"}>
-                Name
-              </FormLabel>
-              <Input type="text" name="name" />
-            </FormControl>
-            <FormControl mb={4} textColor={"white"}>
-              <FormLabel fontSize={"small"} textColor={"white"}>
-                Email
-              </FormLabel>
-              <Input type="email" name="email" />
-            </FormControl>
-            <FormControl mb={4} textColor={"white"}>
-              <FormLabel fontSize={"small"} textColor={"white"}>
-                Message
-              </FormLabel>
-              <Textarea name="message"  textColor={"white"} placeholder="Enter your message here" />
-            </FormControl>
-
-            <Button colorScheme="blue" type="submit"   _hover={{ transform: "scale(1.1)" }}
- >
-              Submit
-            </Button>
-          </form>
-        </Box>
+        <VStack spacing={8}>
+          <Box textAlign="center">
+            <Heading
+              as="h2"
+              size="xl"
+              textColor="white"
+              fontFamily="Lexend Variable"
+              mb={4}
+            >
+              Contact Me
+            </Heading>
+            <Text color="gray.300" fontSize="lg">
+              Send me a message and my team will get back to you as soon as possible.
+            </Text>
+          </Box>
+          <Box
+            bg="rgba(255, 255, 255, 0.05)"
+            boxShadow="lg"
+            p={8}
+            w={formWidth}
+            borderRadius="lg"
+            border="1px solid rgba(255, 255, 255, 0.1)"
+          >
+            <form onSubmit={handleSubmit}>
+              <VStack spacing={4}>
+                <FormControl id="name" isRequired>
+                  <FormLabel textColor="white">Name</FormLabel>
+                  <Input
+                    type="text"
+                    name="name"
+                    placeholder="Your Name"
+                    focusBorderColor="blue.500"
+                    textColor="white"
+                    bg="rgba(255, 255, 255, 0.1)"
+                  />
+                </FormControl>
+                <FormControl id="email" isRequired>
+                  <FormLabel textColor="white">Email</FormLabel>
+                  <Input
+                    type="email"
+                    name="email"
+                    placeholder="your.email@example.com"
+                    focusBorderColor="blue.500"
+                    textColor="white"
+                    bg="rgba(255, 255, 255, 0.1)"
+                  />
+                </FormControl>
+                <FormControl id="message" isRequired>
+                  <FormLabel textColor="white">Message</FormLabel>
+                  <Textarea
+                    name="message"
+                    placeholder="Enter your message here..."
+                    focusBorderColor="blue.500"
+                    textColor="white"
+                    bg="rgba(255, 255, 255, 0.1)"
+                    resize="vertical"
+                  />
+                </FormControl>
+                <Button
+                  colorScheme="blue"
+                  type="submit"
+                  isFullWidth
+                  isLoading={isSubmitting}
+                  loadingText="Sending"
+                  _hover={{ transform: "translateY(-2px)", boxShadow: "lg" }}
+                  transition="all 0.2s"
+                >
+                  Send Message
+                </Button>
+              </VStack>
+            </form>
+          </Box>
+        </VStack>
       </MotionBox>
       <Footer />
-
     </div>
   );
 };

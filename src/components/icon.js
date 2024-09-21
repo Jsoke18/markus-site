@@ -2,30 +2,20 @@ import React, { useEffect, useState } from "react";
 import { Box, Heading, Image } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import "@fontsource/ubuntu";
-
 import '@fontsource-variable/lexend';
+
 const MotionBox = motion(Box);
 const MotionImage = motion(Image);
 
 const IconTest = () => {
-  const [isHeadingVisible, setIsHeadingVisible] = useState(false);
-  const [areIconsVisible, setAreIconsVisible] = useState(false);
+  const [isContentVisible, setIsContentVisible] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
-      const headingTriggerHeight = window.innerHeight / 1; // Adjust this value as needed
-      const iconsTriggerHeight = window.innerHeight; // Adjust this value as needed
+      const triggerHeight = window.innerHeight * 0.5; // Adjust this value as needed
 
-      // For the heading
-      if (scrollPosition > headingTriggerHeight) {
-        setIsHeadingVisible(true);
-      } else {
-        setIsHeadingVisible(false); // Reset the state when scrolling up
-      }
-
-      // For the icons
-      setAreIconsVisible(scrollPosition > iconsTriggerHeight);
+      setIsContentVisible(scrollPosition > triggerHeight);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -58,6 +48,18 @@ const IconTest = () => {
     },
   ];
 
+  const contentVariants = {
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { delay: 0.3, duration: 1 }
+    },
+    hidden: {
+      opacity: 0,
+      y: 20,
+    },
+  };
+
   const imageVariants = {
     visible: (index) => ({
       x: 0,
@@ -70,11 +72,6 @@ const IconTest = () => {
     }),
   };
 
-  const headingVariants = {
-    visible: { opacity: 1, y: 0, transition: { delay: 0.3, duration: 1 } }, // Increased duration
-    hidden: { opacity: 0, y: 20 },
-  };
-
   return (
     <Box
       display="flex"
@@ -83,12 +80,12 @@ const IconTest = () => {
       justifyContent="center"
       minHeight="150vh"
       pt="100vh"
-      mt="-115vh"
+      mt="-145vh"
     >
       <MotionBox
         initial="hidden"
-        animate={isHeadingVisible ? "visible" : "hidden"}
-        variants={headingVariants}
+        animate={isContentVisible ? "visible" : "hidden"}
+        variants={contentVariants}
       >
         <Heading as="h1" size="3xl" color="white" mb="40%" fontWeight="300" fontFamily="Lexend Variable">
           Agencies
@@ -102,12 +99,12 @@ const IconTest = () => {
       >
         {images.map((image, index) => (
           <MotionBox
-            key={image}
+            key={image.src}
             borderRadius="full"
             variants={imageVariants}
             custom={index}
             initial="hidden"
-            animate={areIconsVisible ? "visible" : "hidden"}
+            animate={isContentVisible ? "visible" : "hidden"}
             whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
             m={2}
           >

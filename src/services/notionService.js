@@ -1,4 +1,10 @@
-const BASE_URL = 'http://127.0.0.1:5000';
+// services/notionService.js
+
+const BASE_URL = "http://localhost:5000"
+
+if (!BASE_URL) {
+  throw new Error('NEXT_PUBLIC_API_URL is not set in the environment variables');
+}
 
 export const queryNotion = async (sessionId, isInitial = false) => {
   try {
