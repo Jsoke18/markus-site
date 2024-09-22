@@ -35,7 +35,13 @@ const Hero = forwardRef((props, ref) => {
   }, []);
 
   return (
-    <Box textAlign="center" py="20" ref={ref} zIndex="10" position="relative">
+    <Box 
+      textAlign="center" 
+      py="20" 
+      ref={ref} 
+      position="relative"
+      zIndex="1"  // Set a base z-index for the hero section
+    >
       <Carousel
         cards={cards}
         height="700px"
@@ -45,18 +51,18 @@ const Hero = forwardRef((props, ref) => {
         showArrows={false}
       />
 
-      {/* Adjusted "View More" Link Placement */}
       <Link to="/work">
         <Text
           as="span"
           fontSize="lg"
-          color="white"  // Default color as white
+          color="white"
           position="absolute"
-          right="4rem"   // Adjusted to bring it closer to the carousel
-          bottom="3rem"  // Moved higher to keep it visually closer to the carousel
+          right="4rem"
+          bottom="3rem"
           display="flex"
           alignItems="center"
-          _hover={{ color: "teal.400", textDecoration: "underline" }}  // Changes to teal on hover
+          _hover={{ color: "teal.400", textDecoration: "underline" }}
+          zIndex="2"  // Ensure this is above the carousel but below the menu
         >
           View More <ArrowForwardIcon ml={1} />
         </Text>

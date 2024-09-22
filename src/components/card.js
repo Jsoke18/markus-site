@@ -1,29 +1,29 @@
 import React from "react";
 import { useSpring, animated } from "react-spring";
-import Styles from "./Card.module.css";
+import styles from "./Card.module.css";
 
 function Card({ imagen, title }) {
-  const [props3, set] = useSpring(() => ({ 
+  const [props, set] = useSpring(() => ({
     transform: "scale(1)",
-    boxShadow: "0 2px 10px rgb(0 0 0 / 8%)"
+    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.08)"
   }));
 
   return (
     <animated.div
-      className={Styles.cardWrapper}
-      style={props3}
-      onMouseEnter={() => set({ 
-        transform: "scale(1.03)", 
-        boxShadow: "0 20px 25px rgb(0 0 0 / 25%)"
+      className={styles.cardWrapper}
+      style={props}
+      onMouseEnter={() => set({
+        transform: "scale(1.03)",
+        boxShadow: "0 20px 25px rgba(0, 0, 0, 0.25)"
       })}
-      onMouseLeave={() => set({ 
-        transform: "scale(1)", 
-        boxShadow: "0 2px 10px rgb(0 0 0 / 8%)"
+      onMouseLeave={() => set({
+        transform: "scale(1)",
+        boxShadow: "0 2px 10px rgba(0, 0, 0, 0.08)"
       })}
     >
-      <div className={Styles.card}>
-        <img src={imagen} alt={title} className={Styles.cardImage} />
-        <div className={Styles.titleOverlay}>
+      <div className={styles.card}>
+        <img src={imagen} alt={title} className={styles.cardImage} />
+        <div className={styles.titleOverlay}>
           <p>{title}</p>
         </div>
       </div>

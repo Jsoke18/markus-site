@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Box, Heading, Image } from "@chakra-ui/react";
+import { Box, Heading, Image, Flex } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import "@fontsource/ubuntu";
-import '@fontsource-variable/lexend';
+import "@fontsource-variable/lexend";
 
 const MotionBox = motion(Box);
 const MotionImage = motion(Image);
@@ -13,16 +13,12 @@ const IconTest = () => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
-      const triggerHeight = window.innerHeight * 0.3; // Adjust this value as needed
-
+      const triggerHeight = window.innerHeight * 0.3;
       setIsContentVisible(scrollPosition > triggerHeight);
     };
 
     window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const images = [
@@ -48,7 +44,7 @@ const IconTest = () => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { delay: 0.3, duration: 1 }
+      transition: { delay: 0.3, duration: 1 },
     },
     hidden: {
       opacity: 0,
@@ -74,10 +70,10 @@ const IconTest = () => {
       flexDirection="column"
       alignItems="center"
       justifyContent="center"
-      minHeight="110vh"  // Reduced minimum height
-      pt="60vh"          // Reduced padding at the top to move content upwards
-      mt="-60vh"         // Reduced margin to pull content upwards
-      zIndex="1"         // Keep zIndex for proper layering
+      minHeight={{ base: "90vh", md: "110vh" }}
+      pt={{ base: "60vh", md: "80vh" }} // Increased padding top for mobile/desktop
+      mt={{ base: "-30vh", md: "-40vh" }} // Adjusted margin-top to keep layout consistent
+      zIndex="1"
       position="relative"
     >
       <MotionBox
@@ -85,15 +81,23 @@ const IconTest = () => {
         animate={isContentVisible ? "visible" : "hidden"}
         variants={contentVariants}
       >
-        <Heading as="h1" size="3xl" color="white" mb="10%" fontWeight="300" fontFamily="Lexend Variable">
+        <Heading
+          as="h1"
+          size={{ base: "2xl", md: "3xl" }}
+          color="white"
+          mb={{ base: "8%", md: "10%" }}
+          fontWeight="300"
+          fontFamily="Lexend Variable"
+        >
           Agencies
         </Heading>
       </MotionBox>
-      <Box
-        display="flex"
-        flexDirection="row"
+      <Flex
+        flexDirection={{ base: "column", md: "row" }}
         justifyContent="center"
         alignItems="center"
+        flexWrap={{ base: "nowrap", md: "wrap" }}
+        maxWidth="100%"
       >
         {images.map((image, index) => (
           <MotionBox
@@ -104,8 +108,8 @@ const IconTest = () => {
             initial="hidden"
             animate={isContentVisible ? "visible" : "hidden"}
             whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
-            m={2}
-            zIndex="2"  // Ensure clickable area is above other elements
+            m={{ base: 2, md: 2 }}
+            zIndex="2"
           >
             <a
               href={image.link}
@@ -117,13 +121,13 @@ const IconTest = () => {
               <MotionImage
                 src={image.src}
                 borderRadius="full"
-                boxSize="150px"
+                boxSize={{ base: "100px", md: "150px" }}
                 objectFit="cover"
               />
             </a>
           </MotionBox>
         ))}
-      </Box>
+      </Flex>
     </Box>
   );
 };

@@ -16,7 +16,7 @@ const Home = () => {
       <Hero ref={heroRef} />
       <LocationText heroRef={heroRef} />
       <PinIcon heroRef={heroRef} />
-      <Box mt="-105vh" zIndex="0" position="relative">  {/* Kept negative margin and adjusted zIndex */}
+      <Box mt="-105vh">  {/* Reduced margin between LocationText and IconTest */}
         <IconTest />
       </Box>
       <Footer />

@@ -1,5 +1,13 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
-import { Box, Image, Flex, Alert, AlertIcon, Spinner, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Image,
+  Flex,
+  Alert,
+  AlertIcon,
+  Spinner,
+  Text,
+} from "@chakra-ui/react";
 import { queryNotion } from "../services/notionService";
 
 const WorkCard = () => {
@@ -40,37 +48,32 @@ const WorkCard = () => {
   const fetchMoreData = useCallback(async () => {
     if (isLoading || !hasMore || !mountedRef.current || !sessionId) return;
     setIsLoading(true);
-    console.log("Fetching more unique images for session ID:", sessionId, "Initial load:", isInitialLoad);
+    console.log(
+      "Fetching more unique images for session ID:",
+      sessionId,
+      "Initial load:",
+      isInitialLoad
+    );
     try {
       const data = await queryNotion(sessionId, isInitialLoad);
       console.log("Received data:", data);
       if (mountedRef.current) {
         if (data && data.image_data) {
           console.log("Received image data:", data.image_data);
-          data.image_data.forEach(item => {
-            console.log(`ID: ${item.id}, Title: ${item.title}, URL: ${item.url}`);
-          });
           const newCards = data.image_data.map((item) => ({
             id: item.id,
             title: item.title,
             url: item.url,
             isLoading: true,
           }));
-          setCards((prevCards) => {
-            const updatedCards = [...prevCards, ...newCards];
-            console.log(`Total unique images shown: ${updatedCards.length}`);
-            return updatedCards;
-          });
+          setCards((prevCards) => [...prevCards, ...newCards]);
           setHasMore(data.has_more);
           setIsInitialLoad(false);
-          console.log("Has more unique images:", data.has_more);
         } else {
-          console.error("Unexpected response format:", data);
           setError("Received unexpected data format from server.");
         }
       }
     } catch (error) {
-      console.error("Error fetching unique images:", error);
       if (mountedRef.current) {
         setError("Failed to fetch images. Please try again later.");
       }
@@ -82,44 +85,37 @@ const WorkCard = () => {
   }, [isLoading, hasMore, sessionId, isInitialLoad]);
 
   useEffect(() => {
-    console.log("Component mounted");
     mountedRef.current = true;
     resetState();
-
     return () => {
-      console.log("Component unmounting");
       mountedRef.current = false;
-      if (observer.current) {
-        observer.current.disconnect();
-      }
+      if (observer.current) observer.current.disconnect();
     };
-  }, []);
+  }, [resetState]);
 
   useEffect(() => {
     if (sessionId) {
       fetchMoreData();
     }
-  }, [sessionId]);
+  }, [sessionId, fetchMoreData]);
 
   const handleImageLoad = useCallback((id) => {
     if (!mountedRef.current) return;
-    setCards((prevCards) => {
-      const updatedCards = prevCards.map((card) =>
+    setCards((prevCards) =>
+      prevCards.map((card) =>
         card.id === id ? { ...card, isLoading: false } : card
-      );
-      console.log(`Total unique images loaded: ${updatedCards.filter(card => !card.isLoading).length}`);
-      return updatedCards;
-    });
+      )
+    );
   }, []);
 
   const handleImageClick = (card) => {
     setSelectedImage(card);
-    document.body.style.overflow = 'hidden'; // Disable scrolling
+    document.body.style.overflow = "hidden"; // Disable scrolling
   };
 
   const handleCloseEnlarged = () => {
     setSelectedImage(null);
-    document.body.style.overflow = 'auto'; // Re-enable scrolling
+    document.body.style.overflow = "auto"; // Re-enable scrolling
   };
 
   if (!sessionId) {
@@ -160,6 +156,7 @@ const WorkCard = () => {
             position="relative"
             onClick={() => handleImageClick(card)}
             cursor="pointer"
+            zIndex="9" // Make sure cards are below the header
             _hover={{
               "& > .title-overlay": {
                 transform: "translateY(0)",
@@ -186,14 +183,7 @@ const WorkCard = () => {
               transform="translateY(100%)"
               transition="transform 0.3s ease-in-out"
             >
-              <Text 
-                p={3} 
-                fontSize="md" 
-                fontWeight="600"
-                fontFamily="'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
-                letterSpacing="0.5px"
-                lineHeight="1.2"
-              >
+              <Text p={3} fontSize="md" fontWeight="600">
                 {card.title}
               </Text>
             </Box>
@@ -216,7 +206,7 @@ const WorkCard = () => {
           width="100%"
           height="100%"
           bg="rgba(0,0,0,0.8)"
-          zIndex={1000}
+          zIndex={9999} // Ensure this is higher than the header's zIndex
           display="flex"
           alignItems="center"
           justifyContent="center"
