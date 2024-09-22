@@ -53,7 +53,7 @@ const LocationText = ({ heroRef }) => {
       justifyContent="center"
       alignItems="center"
       h="100vh"
-      mt="-50vh"
+      mt="-40vh"
     >
       <motion.div {...animationProps}>
         <Text  fontSize="6xl" fontWeight="bold" color="white" fontFamily="Lexend Variable">

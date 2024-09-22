@@ -43,7 +43,7 @@ const PinIcon = ({ heroRef }) => {
       justifyContent="center"
       alignItems="center"
       h="100vh"
-      mt="-85vh"
+      mt="-90vh"
       position="relative"
     >
       <motion.div initial={{ x: 100, opacity: 0 }} animate={controls}>

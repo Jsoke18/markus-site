@@ -13,7 +13,7 @@ const IconTest = () => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
-      const triggerHeight = window.innerHeight * 0.5; // Adjust this value as needed
+      const triggerHeight = window.innerHeight * 0.3; // Adjust this value as needed
 
       setIsContentVisible(scrollPosition > triggerHeight);
     };
@@ -31,16 +31,12 @@ const IconTest = () => {
       link: "https://blowmodels.com/men/markus-rettger/",
     },
     {
-      src: "/assets/folio.jpg",
-      link: "https://foliomanagement.com/en/models/markus",
-    },
-    {
       src: "/assets/willy4.jpg",
       link: "https://www.wilhelmina.com/new-york/men/development/22515-markus-rettger",
     },
     {
-      src: "/assets/MGM.jpg",
-      link: "https://www.mgm-models.de/sedcard/markus",
+      src: "/assets/haumannkind.png",
+      link: "https://www.humankindmgmt.com/talent/markus",
     },
     {
       src: "/assets/brave.jpg",
@@ -78,16 +74,18 @@ const IconTest = () => {
       flexDirection="column"
       alignItems="center"
       justifyContent="center"
-      minHeight="150vh"
-      pt="100vh"
-      mt="-145vh"
+      minHeight="110vh"  // Reduced minimum height
+      pt="60vh"          // Reduced padding at the top to move content upwards
+      mt="-60vh"         // Reduced margin to pull content upwards
+      zIndex="1"         // Keep zIndex for proper layering
+      position="relative"
     >
       <MotionBox
         initial="hidden"
         animate={isContentVisible ? "visible" : "hidden"}
         variants={contentVariants}
       >
-        <Heading as="h1" size="3xl" color="white" mb="40%" fontWeight="300" fontFamily="Lexend Variable">
+        <Heading as="h1" size="3xl" color="white" mb="10%" fontWeight="300" fontFamily="Lexend Variable">
           Agencies
         </Heading>
       </MotionBox>
@@ -107,6 +105,7 @@ const IconTest = () => {
             animate={isContentVisible ? "visible" : "hidden"}
             whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
             m={2}
+            zIndex="2"  // Ensure clickable area is above other elements
           >
             <a
               href={image.link}

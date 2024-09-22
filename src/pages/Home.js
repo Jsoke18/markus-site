@@ -3,8 +3,9 @@ import Header from "../components/Header";
 import Hero from "../components/Hero";
 import Footer from "../components/Footer";
 import LocationText from "../components/LocationText";
-import PinIcon from "../components/PinIcon"
-import IconTest from "../components/icon"
+import PinIcon from "../components/PinIcon";
+import IconTest from "../components/icon";
+import { Box } from "@chakra-ui/react";
 
 const Home = () => {
   const heroRef = useRef(null);
@@ -15,7 +16,9 @@ const Home = () => {
       <Hero ref={heroRef} />
       <LocationText heroRef={heroRef} />
       <PinIcon heroRef={heroRef} />
-      <IconTest />
+      <Box mt="-105vh" zIndex="0" position="relative">  {/* Kept negative margin and adjusted zIndex */}
+        <IconTest />
+      </Box>
       <Footer />
     </>
   );
