@@ -21,7 +21,7 @@ const PinIcon = ({ heroRef }) => {
     }
 
     const handleScroll = () => {
-      const triggerHeight = heroHeight * 0.36;
+      const triggerHeight = heroHeight * 0.25;
 
       if (window.scrollY > triggerHeight) {
         controls.start({ x: 0, opacity: 1, transition: { duration: 1 } });

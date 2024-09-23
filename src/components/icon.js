@@ -71,8 +71,8 @@ const IconTest = () => {
       alignItems="center"
       justifyContent="center"
       minHeight={{ base: "90vh", md: "110vh" }}
-      pt={{ base: "60vh", md: "80vh" }} // Increased padding top for mobile/desktop
-      mt={{ base: "-30vh", md: "-40vh" }} // Adjusted margin-top to keep layout consistent
+      pt={{ base: "60vh", md: "50vh" }} // Increased padding top for mobile/desktop
+      mt={{ base: "-20vh", md: "-40vh" }} // Adjusted margin-top to keep layout consistent
       zIndex="1"
       position="relative"
     >

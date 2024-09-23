@@ -131,7 +131,7 @@ const Header = () => {
               bottom: 0,
               width: "250px",
               background: "white",
-              zIndex: 10000,
+              zIndex: "10000",
               display: "flex",
               flexDirection: "column",
               padding: "20px",

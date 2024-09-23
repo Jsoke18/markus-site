@@ -40,7 +40,6 @@ const Hero = forwardRef((props, ref) => {
       py="20" 
       ref={ref} 
       position="relative"
-      zIndex="1"  // Set a base z-index for the hero section
     >
       <Carousel
         cards={cards}
@@ -62,7 +61,7 @@ const Hero = forwardRef((props, ref) => {
           display="flex"
           alignItems="center"
           _hover={{ color: "teal.400", textDecoration: "underline" }}
-          zIndex="2"  // Ensure this is above the carousel but below the menu
+          zIndex="999"  // Ensure this is above the carousel but below the menu
         >
           View More <ArrowForwardIcon ml={1} />
         </Text>
