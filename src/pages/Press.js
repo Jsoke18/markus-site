@@ -125,7 +125,7 @@ const Pressy = () => {
           mb={16}
         >
           <Text fontSize="3xl" fontWeight="bold" color="white" mb={8} textAlign="center">
-            Popular Posts
+            Featured Posts
           </Text>
           <InstagramCarousel />
         </MotionBox>

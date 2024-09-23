@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { IconButton, Box, Spinner, useColorModeValue } from "@chakra-ui/react";
 import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons';
 import { motion, AnimatePresence } from "framer-motion";
@@ -8,6 +8,8 @@ const MotionBox = motion(Box);
 const InstagramEmbed = ({ urls, currentPostIndex, goToNextPost, goToPreviousPost }) => {
   const currentUrl = urls[currentPostIndex];
   const [isLoading, setIsLoading] = useState(true);
+  const [containerHeight, setContainerHeight] = useState(0);
+  const containerRef = useRef(null);
 
   const bgColor = useColorModeValue("white", "gray.800");
   const iconColor = useColorModeValue("gray.800", "white");
@@ -43,6 +45,21 @@ const InstagramEmbed = ({ urls, currentPostIndex, goToNextPost, goToPreviousPost
     };
   }, [currentPostIndex]);
 
+  useEffect(() => {
+    const updateContainerHeight = () => {
+      if (containerRef.current) {
+        setContainerHeight(containerRef.current.offsetHeight);
+      }
+    };
+
+    updateContainerHeight();
+    window.addEventListener('resize', updateContainerHeight);
+
+    return () => {
+      window.removeEventListener('resize', updateContainerHeight);
+    };
+  }, []);
+
   return (
     <MotionBox
       position="relative"
@@ -53,9 +70,9 @@ const InstagramEmbed = ({ urls, currentPostIndex, goToNextPost, goToPreviousPost
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <IconButton 
-        icon={<ArrowBackIcon />} 
-        onClick={goToPreviousPost} 
+      <IconButton
+        icon={<ArrowBackIcon />}
+        onClick={goToPreviousPost}
         position="absolute"
         left="-50px"
         top="50%"
@@ -66,7 +83,7 @@ const InstagramEmbed = ({ urls, currentPostIndex, goToNextPost, goToPreviousPost
         zIndex={2}
       />
 
-      <Box position="relative">
+      <Box position="relative" ref={containerRef}>
         <AnimatePresence>
           {isLoading && (
             <MotionBox
@@ -78,13 +95,17 @@ const InstagramEmbed = ({ urls, currentPostIndex, goToNextPost, goToPreviousPost
               display="flex"
               alignItems="center"
               justifyContent="center"
-              bg="rgba(0,0,0,0.5)"
+              bg={bgColor}
               zIndex={1}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              style={{
+                height: `${containerHeight}px`,
+                minHeight: '300px', // Fallback minimum height
+              }}
             >
-              <Spinner size="xl" color="white" />
+              <Spinner size="xl" color="gray.500" />
             </MotionBox>
           )}
         </AnimatePresence>
@@ -112,9 +133,9 @@ const InstagramEmbed = ({ urls, currentPostIndex, goToNextPost, goToPreviousPost
         </blockquote>
       </Box>
 
-      <IconButton 
-        icon={<ArrowForwardIcon />} 
-        onClick={goToNextPost} 
+      <IconButton
+        icon={<ArrowForwardIcon />}
+        onClick={goToNextPost}
         position="absolute"
         right="-50px"
         top="50%"

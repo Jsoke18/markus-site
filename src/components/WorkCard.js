@@ -156,7 +156,7 @@ const WorkCard = () => {
             position="relative"
             onClick={() => handleImageClick(card)}
             cursor="pointer"
-            zIndex="0" // Make sure cards are below the header
+            zIndex="6" // Make sure cards are below the header
             _hover={{
               "& > .title-overlay": {
                 transform: "translateY(0)",

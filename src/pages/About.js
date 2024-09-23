@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Flex, Text, Image, VStack, Heading, Link, Container, SimpleGrid } from "@chakra-ui/react";
 import { motion, AnimatePresence } from "framer-motion";
 import Header from "../components/Header";
+import { Instagram } from "lucide-react";
 import "@fontsource/permanent-marker";
 import "@fontsource/goldman";
 
@@ -69,13 +70,16 @@ const About = () => {
                   fontWeight="bold"
                   _hover={{ color: "teal.100" }}
                   isExternal
+                  display="flex"
+                  alignItems="center"
                 >
+                  <Instagram size={24} style={{ marginRight: '8px' }} />
                   Follow Markus on Instagram
                 </Link>
               </VStack>
             </Flex>
 
-            <Box mb={10}>  {/* Added margin bottom here */}
+            <Box mb={10}>
               <Heading
                 as="h2"
                 size="xl"
