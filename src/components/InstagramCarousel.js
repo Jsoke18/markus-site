@@ -18,9 +18,8 @@ const InstagramCarousel = () => {
     "https://www.instagram.com/p/C5OYuL8ABsT/",
     "https://www.instagram.com/p/CtPGzBKr8Q8/?img_index=1",
     "https://www.instagram.com/p/CixflStLcHg/?img_index=1",
-
-
   ];
+
   const [currentPostIndex, setCurrentPostIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const embedRef = useRef(null);
@@ -28,7 +27,7 @@ const InstagramCarousel = () => {
 
   useEffect(() => {
     let isMounted = true;
-    const scriptId = 'instagram-embed-script';
+    const scriptId = "instagram-embed-script";
     const existingScript = document.getElementById(scriptId);
 
     const loadInstagramEmbed = () => {
@@ -39,7 +38,7 @@ const InstagramCarousel = () => {
           if (isMounted) setIsLoading(false);
         }, 1000);
       } else {
-        const script = document.createElement('script');
+        const script = document.createElement("script");
         script.id = scriptId;
         script.async = true;
         script.src = "https://www.instagram.com/embed.js";
@@ -84,37 +83,40 @@ const InstagramCarousel = () => {
   };
 
   const goToPreviousPost = () => {
-    setCurrentPostIndex((prevIndex) =>
-      (prevIndex - 1 + instagramPostUrls.length) % instagramPostUrls.length
+    setCurrentPostIndex(
+      (prevIndex) => (prevIndex - 1 + instagramPostUrls.length) % instagramPostUrls.length
     );
   };
 
   return (
     <MotionBox
-      maxW="640px" // Increased to accommodate arrows
+      maxW={{ base: "100%", md: "700px", lg: "800px" }} // Increased max width on desktop
       w="100%"
       mx="auto"
+      position="relative"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      position="relative" // Added to contain absolute positioned elements
-      px="50px" // Added padding to make room for arrows
+      px={{ base: "0", md: "50px" }} // Added padding on desktop
     >
+      {/* Left Arrow */}
       <IconButton
-        icon={<ChevronLeftIcon boxSize={6} />}
+        icon={<ChevronLeftIcon boxSize={{ base: 6, md: 8 }} />}
         onClick={goToPreviousPost}
         position="absolute"
-        left={0}
         top="50%"
+        left={{ base: "10px", md: "0" }} // Adjusted left position
         transform="translateY(-50%)"
-        zIndex={2}
+        zIndex={10}
         colorScheme="whiteAlpha"
         color="white"
-        bg="rgba(0,0,0,0.3)"
+        bg="rgba(0,0,0,0.5)"
         rounded="full"
-        size="lg"
+        size={{ base: "md", md: "lg" }}
         aria-label="Previous post"
+        _hover={{ bg: "rgba(0,0,0,0.7)" }}
       />
+      {/* Carousel Content */}
       <Box position="relative" width="100%" minHeight="600px">
         <AnimatePresence>
           {isLoading && (
@@ -139,41 +141,44 @@ const InstagramCarousel = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: isLoading ? 0 : 1 }}
           transition={{ duration: 0.3 }}
+          mx="auto"
         >
-          <Box as="blockquote" 
-               className="instagram-media" 
-               data-instgrm-permalink={instagramPostUrls[currentPostIndex]}
-               data-instgrm-version="14"
-               style={{
-                 background: '#FFF',
-                 border: '0',
-                 borderRadius: '3px',
-                 boxShadow: '0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15)',
-                 margin: '1px',
-                 maxWidth: '540px',
-                 minWidth: '326px',
-                 padding: '0',
-                 width: '99.375%',
-                 width: '-webkit-calc(100% - 2px)',
-                 width: 'calc(100% - 2px)',
-               }}
+          <Box
+            as="blockquote"
+            className="instagram-media"
+            data-instgrm-permalink={instagramPostUrls[currentPostIndex]}
+            data-instgrm-version="14"
+            style={{
+              background: "#FFF",
+              border: "0",
+              borderRadius: "3px",
+              boxShadow:
+                "0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15)",
+              margin: "1px auto",
+              maxWidth: "540px",
+              minWidth: "326px",
+              padding: "0",
+              width: "100%",
+            }}
           />
         </MotionBox>
       </Box>
+      {/* Right Arrow */}
       <IconButton
-        icon={<ChevronRightIcon boxSize={6} />}
+        icon={<ChevronRightIcon boxSize={{ base: 6, md: 8 }} />}
         onClick={goToNextPost}
         position="absolute"
-        right={0}
         top="50%"
+        right={{ base: "10px", md: "0" }} // Adjusted right position
         transform="translateY(-50%)"
-        zIndex={2}
+        zIndex={10}
         colorScheme="whiteAlpha"
         color="white"
-        bg="rgba(0,0,0,0.3)"
+        bg="rgba(0,0,0,0.5)"
         rounded="full"
-        size="lg"
+        size={{ base: "md", md: "lg" }}
         aria-label="Next post"
+        _hover={{ bg: "rgba(0,0,0,0.7)" }}
       />
       <Flex justify="center" mt={4}>
         {instagramPostUrls.map((_, index) => (
