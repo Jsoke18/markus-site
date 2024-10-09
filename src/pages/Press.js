@@ -118,17 +118,19 @@ const Pressy = () => {
           </Grid>
         </MotionBox>
 
-        <MotionBox
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          mb={16}
-        >
-          <Text fontSize="3xl" fontWeight="bold" color="white" mb={8} textAlign="center">
-            Featured Posts
-          </Text>
-          <InstagramCarousel />
-        </MotionBox>
+<MotionBox
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.5, delay: 0.4 }}
+  mb={16}
+  position="relative" // Added position relative
+>
+  <Text fontSize="3xl" fontWeight="bold" color="white" mb={8} textAlign="center">
+    Featured Posts
+  </Text>
+  <InstagramCarousel />
+</MotionBox>
+
       </Box>
       <Footer />
     </Box>
